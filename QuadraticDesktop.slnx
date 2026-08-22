@@ -1,0 +1,10 @@
+<Solution>
+  <Configurations>
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="QuadraticDesktop/QuadraticDesktop.vcxproj" Id="34854194-f79d-45b6-8a43-8363421b0209">
+    <Deploy />
+  </Project>
+</Solution>
