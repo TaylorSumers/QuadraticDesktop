@@ -4,9 +4,8 @@
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using namespace Microsoft::UI::Windowing;
+using namespace Windows::Graphics;
 
 namespace winrt::QuadraticDesktop::implementation
 {
@@ -37,7 +36,27 @@ namespace winrt::QuadraticDesktop::implementation
     /// <param name="e">Details about the launch request and process.</param>
     void App::OnLaunched([[maybe_unused]] LaunchActivatedEventArgs const& e)
     {
-        window = make<MainWindow>();
+        window = make<MainWindow>();  // TODO: Learn
+  
+
+        AppWindow appWindow = window.AppWindow();
+
+        std::wstring iconPath{
+        winrt::Windows::ApplicationModel::Package::Current()
+            .InstalledLocation()
+            .Path()
+            .c_str()
+        };
+        iconPath += L"\\Assets\\AppIcon.ico";
+        appWindow.SetTitleBarIcon(winrt::hstring{ iconPath });
+        appWindow.SetTaskbarIcon(winrt::hstring{ iconPath });
+
+        appWindow.ResizeClient(SizeInt32{ 1000, 700 });
+        if (auto presenter = appWindow.Presenter().try_as<OverlappedPresenter>()) {
+          presenter.IsResizable(false);
+          presenter.IsMaximizable(false);
+        }
+
         window.Activate();
     }
 }

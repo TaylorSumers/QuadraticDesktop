@@ -9,7 +9,75 @@
     mc:Ignorable="d"
     Title="QuadraticDesktop">
 
-    <Grid Background="Green">
-        <TextBlock Text="Hello World" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black" FontSize="40"/>
+    <Grid Background="LightGray" x:Name="RootGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <!-- R0 C0 -->
+        <TextBlock Text="Ввод коэффициентов:" Foreground="Black" FontSize="27"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+
+        <!-- R1 C0 -->
+        <TextBlock Grid.Row="1" Text="a =" Foreground="Black" HorizontalAlignment="Right" 
+                   VerticalAlignment="Center" FontSize="25" Margin="15"/>
+
+        <!-- R1 C1 -->
+        <NumberBox Grid.Row="1" Grid.Column="1" Height="40" Width="180" Background="White" 
+                 BorderBrush="Black" Foreground="Black" HorizontalAlignment="Left" x:Name="nbxCoeffA"/>
+        
+        <!-- R2 C0 -->
+        <TextBlock Grid.Row="2" Text="b =" Foreground="Black" HorizontalAlignment="Right" 
+                   VerticalAlignment="Center" FontSize="25" Margin="15"/>
+
+        <!-- R2 C1 -->
+        <NumberBox Grid.Row="2" Grid.Column="1" Height="40" Width="180" Background="White" 
+                 BorderBrush="Black" Foreground="Black" HorizontalAlignment="Left" x:Name="nbxCoeffB"/>
+        
+        <!-- R3 C0 -->
+        <TextBlock Grid.Row="3" Text="c =" Foreground="Black" HorizontalAlignment="Right" 
+                   VerticalAlignment="Center" FontSize="25" Margin="15"/>
+
+        <!-- R3 C1 -->
+        <NumberBox Grid.Row="3" Grid.Column="1" Height="40" Width="180" Background="White" 
+                 BorderBrush="Black" Foreground="Black" HorizontalAlignment="Left" x:Name="nbxCoeffC"/>
+
+        <!-- R4 C0 -->
+        <Button x:Name="SolveButton" Grid.Row="4" Grid.ColumnSpan="2" Content="Решить" Background="Gray" HorizontalAlignment="Center" VerticalAlignment="Top"
+                Width="200" Height="50" Margin="20" Click="SolveButton_Click"/>
+
+
+        <StackPanel x:Name="spOutput" Visibility="Collapsed" Grid.Row="4" Grid.ColumnSpan="2"
+                    HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40">
+            <TextBlock Foreground="Black"  FontSize="20">
+                <Run Text="x₁ = "/>
+                <Run x:Name="x1Field"/>
+            </TextBlock>
+            <TextBlock Foreground="Black"  FontSize="20" x:Name="tbSecondRoot">
+                <Run Text="x₂ = "/>
+                <Run x:Name="x2Field"/>
+            </TextBlock>
+        </StackPanel>
+
+        <TextBlock x:Name="tbResultMessage" Text="Нет корней" Visibility="Collapsed" Grid.Row="4" Grid.ColumnSpan="2"
+                   Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20" Margin="0,0,0,40"/>
+
+
+        <!-- R4 C0 -->
+        <TextBlock Grid.Row="5" Grid.Column="0" TextWrapping="Wrap" MaxWidth="180" Grid.ColumnSpan="2" 
+                   Foreground="Black" HorizontalAlignment="Left" Margin="10">
+            <Run Text="Quadratic Desktop" FontSize="20"/>
+            <Run Text="(C) SUT, 2026"/>
+        </TextBlock>
     </Grid>
 </Window>

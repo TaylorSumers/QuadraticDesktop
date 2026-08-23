@@ -4,6 +4,9 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Project Path="QuadraticCore/QuadraticCore.vcxproj" Id="4a789e91-c3e9-4cdf-8102-74e389a511d0">
+    <Platform Solution="*|ARM64" Project="x64" />
+  </Project>
   <Project Path="QuadraticDesktop/QuadraticDesktop.vcxproj" Id="34854194-f79d-45b6-8a43-8363421b0209">
     <Deploy />
   </Project>

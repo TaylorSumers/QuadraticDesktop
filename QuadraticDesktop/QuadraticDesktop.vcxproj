@@ -97,12 +97,13 @@
       <WarningLevel>Level4</WarningLevel>
       <LanguageStandard Condition="'$(VisualStudioVersion)' &gt;= '18.0'">stdcpp20</LanguageStandard>
       <LanguageStandard Condition="'$(VisualStudioVersion)' &lt; '18.0'">stdcpp17</LanguageStandard>
-      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)QuadraticCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
@@ -123,6 +124,7 @@
     <Manifest Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Interop\QuadraticCoreAdapter.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
@@ -136,6 +138,7 @@
     <Page Include="MainWindow.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Interop\QuadraticCoreAdapter.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -154,12 +157,7 @@
     </Midl>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="readme.txt">
-      <DeploymentContent>false</DeploymentContent>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Assets\LockScreenLogo.scale-200.png" />
+    <Image Include="Assets\AppIcon.ico" />
     <Image Include="Assets\SplashScreen.scale-200.png" />
     <Image Include="Assets\Square150x150Logo.scale-200.png" />
     <Image Include="Assets\Square44x44Logo.scale-200.png" />
@@ -182,6 +180,11 @@
   -->
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QuadraticCore\QuadraticCore.vcxproj">
+      <Project>{4a789e91-c3e9-4cdf-8102-74e389a511d0}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MainWindow.g.h"
+#include "Interop/QuadraticCoreAdapter.h"
 
 namespace winrt::QuadraticDesktop::implementation
 {
@@ -8,12 +9,14 @@ namespace winrt::QuadraticDesktop::implementation
     {
         MainWindow()
         {
-            // Xaml objects should not call InitializeComponent during construction.
-            // See https://github.com/microsoft/cppwinrt/tree/master/nuget#initializecomponent
+            
         }
 
-        int32_t MyProperty();
-        void MyProperty(int32_t value);
+        winrt::fire_and_forget SolveButton_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e);
+
+      private:
+        winrt::Microsoft::UI::Xaml::Controls::ContentDialog GetErrorDialog(winrt::hstring const& header, winrt::hstring const& message);
+        void ShowResult(quadratic::interop::Result result);
     };
 }
 
