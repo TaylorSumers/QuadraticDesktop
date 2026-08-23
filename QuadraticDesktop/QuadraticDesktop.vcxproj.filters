@@ -12,9 +12,15 @@
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="Interop\QuadraticCoreAdapter.cpp">
+      <Filter>Interop</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Interop\QuadraticCoreAdapter.h">
+      <Filter>Interop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
@@ -26,16 +32,16 @@
     <Image Include="Assets\Square150x150Logo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+    <Image Include="Assets\SplashScreen.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\AppIcon.ico">
       <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\Square44x44Logo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\SplashScreen.scale-200.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\LockScreenLogo.scale-200.png">
+    <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>
@@ -43,9 +49,9 @@
     <Filter Include="Assets">
       <UniqueIdentifier>{34854194-f79d-45b6-8a43-8363421b0209}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="readme.txt" />
+    <Filter Include="Interop">
+      <UniqueIdentifier>{5be43433-ba1a-4da7-a2ae-64cdf9c60cf2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="app.manifest" />
@@ -55,5 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
   </ItemGroup>
 </Project>
