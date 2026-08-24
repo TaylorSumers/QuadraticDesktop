@@ -39,32 +39,61 @@ namespace winrt::QuadraticDesktop::implementation
     return dialog;
   }
 
-  void MainWindow::ShowResult(quadratic::interop::Result result) {
-    spOutput().Visibility(Visibility::Collapsed);
-    tbResultMessage().Visibility(Visibility::Collapsed);
-    tbSecondRoot().Visibility(Visibility::Visible);
+  winrt::fire_and_forget MainWindow::ShowResult(quadratic::interop::Result result) {
+    tbWaitCoeff().Visibility(Visibility::Collapsed);
+    grdOutput().Visibility(Visibility::Visible);
+
     switch (result.nRoots) {
     case 0:
-      tbResultMessage().Text(L"Нет корней");
-      tbResultMessage().Visibility(Visibility::Visible);
+      brdOneRootMsg().Visibility(Visibility::Collapsed);
+      brdTwoRootsMsg().Visibility(Visibility::Collapsed);
+      brdNoRootsMsg().Visibility(Visibility::Visible);
+      brdInfRootsMsg().Visibility(Visibility::Collapsed);
+
+      dField().Text(winrt::hstring{ std::format(L"{:.6g}", result.d) });
+      tbFirstRoot().Visibility(Visibility::Collapsed);
+      tbSecondRoot().Visibility(Visibility::Collapsed);
       break;
     case 1:
+      brdOneRootMsg().Visibility(Visibility::Visible);
+      brdTwoRootsMsg().Visibility(Visibility::Collapsed);
+      brdNoRootsMsg().Visibility(Visibility::Collapsed);
+      brdInfRootsMsg().Visibility(Visibility::Collapsed);
+
+
+      dField().Text(winrt::hstring{ std::format(L"{:.6g}", result.d) });
       x1Field().Text(winrt::hstring{ std::format(L"{:.6g}", result.x1) });
+      tbFirstRoot().Visibility(Visibility::Visible);
       tbSecondRoot().Visibility(Visibility::Collapsed);
-      spOutput().Visibility(Visibility::Visible);
       break;
     case 2:
+      brdOneRootMsg().Visibility(Visibility::Collapsed);
+      brdTwoRootsMsg().Visibility(Visibility::Visible);
+      brdNoRootsMsg().Visibility(Visibility::Collapsed);
+      brdInfRootsMsg().Visibility(Visibility::Collapsed);
+
+      dField().Text(winrt::hstring{ std::format(L"{:.6g}", result.d) });
       x1Field().Text(to_hstring(winrt::hstring{ std::format(L"{:.6g}", result.x1) }));
       x2Field().Text(to_hstring(winrt::hstring{ std::format(L"{:.6g}", result.x2) }));
-      spOutput().Visibility(Visibility::Visible);
+      tbFirstRoot().Visibility(Visibility::Visible);
+      tbSecondRoot().Visibility(Visibility::Visible);
       break;
     case 3:
-      tbResultMessage().Text(L"Любое число является корнем");
-      tbResultMessage().Visibility(Visibility::Visible);
+      brdOneRootMsg().Visibility(Visibility::Collapsed);
+      brdTwoRootsMsg().Visibility(Visibility::Collapsed);
+      brdNoRootsMsg().Visibility(Visibility::Collapsed);
+      brdInfRootsMsg().Visibility(Visibility::Visible);
+
+      dField().Text(winrt::hstring{ std::format(L"{:.6g}", result.d) });
+      tbFirstRoot().Visibility(Visibility::Collapsed);
+      tbSecondRoot().Visibility(Visibility::Collapsed);
       break;
     default:
-      tbResultMessage().Text(L"Неизвестный результат вычисления");
-      tbResultMessage().Visibility(Visibility::Visible);
+      tbWaitCoeff().Visibility(Visibility::Visible);
+      grdOutput().Visibility(Visibility::Collapsed);
+
+      auto errorDialog = GetErrorDialog(L"Ошибка вычисления", L"Неизвестный результат");
+      co_await errorDialog.ShowAsync();
       break;
     }
   }

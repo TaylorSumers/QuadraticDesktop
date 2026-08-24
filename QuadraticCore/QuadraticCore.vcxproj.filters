@@ -24,10 +24,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\cmp.c">
-      <Filter>Resource Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\equation_solving.c">
-      <Filter>Resource Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

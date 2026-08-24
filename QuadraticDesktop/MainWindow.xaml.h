@@ -16,7 +16,7 @@ namespace winrt::QuadraticDesktop::implementation
 
       private:
         winrt::Microsoft::UI::Xaml::Controls::ContentDialog GetErrorDialog(winrt::hstring const& header, winrt::hstring const& message);
-        void ShowResult(quadratic::interop::Result result);
+        winrt::fire_and_forget ShowResult(quadratic::interop::Result result);
     };
 }
 

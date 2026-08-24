@@ -158,6 +158,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\AppIcon.ico" />
+    <Image Include="Assets\calculator.png" />
+    <Image Include="Assets\check.png" />
+    <Image Include="Assets\plot.png" />
     <Image Include="Assets\SplashScreen.scale-200.png" />
     <Image Include="Assets\Square150x150Logo.scale-200.png" />
     <Image Include="Assets\Square44x44Logo.scale-200.png" />
