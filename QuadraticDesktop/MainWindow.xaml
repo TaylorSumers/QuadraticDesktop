@@ -9,7 +9,185 @@
     mc:Ignorable="d"
     Title="QuadraticDesktop">
 
-    <Grid Background="Green">
-        <TextBlock Text="Hello World" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black" FontSize="40"/>
+    <Grid Background="#f5f8fb" x:Name="RootGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.2*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Coefficient input -->
+        <Border Background="White" CornerRadius="10" BorderBrush="LightGray" BorderThickness="1" 
+                Margin="20,20,10,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.3*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- R0 -->
+                <TextBlock Text="Решение квадратного уравнения" Foreground="Black" FontSize="22"
+                           Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center"
+                           FontWeight="SemiBold"/>
+                <!-- R1 -->
+                <TextBlock Text="ax² + bx + c = 0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center"
+                           VerticalAlignment="Center" FontSize="22" FontFamily="Cambria" FontStyle="Italic"
+                           Foreground="Red"/>
+                
+                <!-- R2 -->
+                <TextBlock Text="a =" Grid.Row="2" Foreground="Black" HorizontalAlignment="Right"
+                           VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+                <NumberBox Grid.Row="2" Grid.Column="1" Height="40" Width="169" Margin="10,0,0,0"
+                           BorderBrush="LightGray" Foreground="Black" HorizontalAlignment="Left" x:Name="nbxCoeffA"/>
+
+                <!-- R3 -->
+                <TextBlock Text="b =" Grid.Row="3" Foreground="Black" HorizontalAlignment="Right"
+                           VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+                <NumberBox Grid.Row="3" Grid.Column="1" Height="40" Width="169" Margin="10,0,0,0"
+                           BorderBrush="LightGray" Foreground="Black" HorizontalAlignment="Left" x:Name="nbxCoeffB"/>
+                <!-- R4 -->
+                <TextBlock Text="c =" Grid.Row="4" Foreground="Black" HorizontalAlignment="Right"
+                           VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+                <NumberBox Grid.Row="4" Grid.Column="1" Height="40" Width="169" Margin="10,0,0,0"
+                           BorderBrush="LightGray" Foreground="Black" HorizontalAlignment="Left" x:Name="nbxCoeffC"/>
+                <!-- R5 -->
+                <Button Grid.Row="5" Grid.ColumnSpan="2" Background="Red" HorizontalAlignment="Center" Height="40" Width="220" 
+                        x:Name="SolveButton" Click="SolveButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Assets/calculator.png" MaxHeight="20" MaxWidth="20" Margin="0,0,5,0"/>
+                        <TextBlock Text="Решить" FontWeight="SemiBold" Foreground="White" FontSize="17"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+        </Border>
+
+        <!-- Solution output -->
+        <Border Background="White" CornerRadius="10" BorderBrush="LightGray" BorderThickness="1"
+                Margin="20,10,10,20" Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.2*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <!-- R0 -->
+                <TextBlock Text="Результат" Foreground="Red" FontWeight="SemiBold" FontSize="18" 
+                           Margin="20,10,0,0" Grid.ColumnSpan="2"/>
+                
+                <!-- R1 -->
+                <TextBlock Grid.Row="1" Text="Введите коэффициенты, чтобы получить корни и дискриминант" 
+                           Foreground="#9c9c9c" Width="200" TextWrapping="Wrap" FontSize="15"
+                           x:Name="tbWaitCoeff" Visibility="Visible"/>
+
+                <Grid Grid.Row="1" Visibility="Collapsed" x:Name="grdOutput">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.3*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <!-- R0 -->
+                    <Border Background="#fcd7d7" Height="30" Width="30" CornerRadius="20">
+                        <TextBlock Text="D" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    FontFamily="Cambria" FontSize="18" Foreground="Red"/>
+                    </Border>
+                    <TextBlock Foreground="Black"  FontSize="20" Grid.Column="1" 
+                                VerticalAlignment="Center" FontFamily="Cambria">
+                        <Run Text="D = "/>
+                        <Run x:Name="dField"/>
+                    </TextBlock>
+                    <!-- R1 -->
+                    <Border Grid.Row="1" Background="#fcd7d7" Height="30" Width="30" CornerRadius="20">
+                        <TextBlock Text="x₁" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontFamily="Cambria" FontSize="18" Foreground="Red"/>
+                    </Border>
+
+                    <TextBlock Foreground="Black"  FontSize="20" Grid.Row="1" Grid.Column="1"
+                           VerticalAlignment="Center" FontFamily="Cambria" x:Name="tbFirstRoot">
+                        <Run Text="x₁ = "/>
+                        <Run x:Name="x1Field"/>
+                    </TextBlock>
+                    <!-- R2 -->
+                    <Border Grid.Row="2" Background="#fcd7d7" Height="30" Width="30" CornerRadius="20">
+                        <TextBlock Text="x₂" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontFamily="Cambria" FontSize="18" Foreground="Red"/>
+                    </Border>
+                    <TextBlock Foreground="Black"  FontSize="20" Grid.Row="2" Grid.Column="1" 
+                           VerticalAlignment="Center" FontFamily="Cambria" x:Name="tbSecondRoot">
+                        <Run Text="x₂ = "/>
+                        <Run x:Name="x2Field"/>
+                    </TextBlock>
+                    <!-- R3 -->
+                    <Border x:Name="brdTwoRootsMsg" Grid.Row="3" Grid.ColumnSpan="2" Background="#eff9ef" Height="40" Width="230" Visibility="Collapsed"
+                        CornerRadius="5" VerticalAlignment="Top" BorderBrush="LightGreen" BorderThickness="1" >
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Image Source="/Assets/check.png" MaxHeight="15" MaxWidth="15" Margin="15,0"/>
+                            <TextBlock Text="Два различных корня" 
+                                        Foreground="Green"/>
+                        </StackPanel>
+                    </Border>
+                    <Border x:Name="brdOneRootMsg" Grid.Row="3" Grid.ColumnSpan="2" Background="#eff9ef" Height="40" Width="230" Visibility="Collapsed"
+                        CornerRadius="5" VerticalAlignment="Top" BorderBrush="LightGreen" BorderThickness="1">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Image Source="/Assets/check.png" MaxHeight="15" MaxWidth="15" Margin="15,0"/>
+                            <TextBlock Text="Один корень" 
+                                       Foreground="Green"/>
+                        </StackPanel>
+                    </Border>
+                    <Border x:Name="brdNoRootsMsg" Grid.Row="3" Grid.ColumnSpan="2" Background="#fce3e3" Height="40" Width="230" Visibility="Collapsed"
+                        CornerRadius="5" VerticalAlignment="Top" BorderBrush="#ff6969" BorderThickness="1">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Image Source="/Assets/redcross.png" MaxHeight="15" MaxWidth="15" Margin="15,0"/>
+                            <TextBlock Text="Нет корней" Foreground="Red"/>
+                        </StackPanel>
+                        
+                    </Border>
+                    <Border x:Name="brdInfRootsMsg" Grid.Row="3" Grid.ColumnSpan="2" Background="#c9c9ff" Height="40" Width="230" Visibility="Collapsed"
+                        CornerRadius="5" VerticalAlignment="Top" BorderBrush="#b3b3ff" BorderThickness="1">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock Text="i" Margin="15,0" Foreground="#4444fc"  FontFamily="Cambria" FontSize="25" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                            <TextBlock Text="Корень - любое число" Foreground="#4444fc" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        
+                    </Border>
+                </Grid>
+            </Grid>
+        </Border>
+        
+        <!-- Plot -->
+        <Border Background="White" CornerRadius="10" BorderBrush="LightGray" BorderThickness="1" 
+                Margin="10,20,20,20" Grid.RowSpan="2" Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="0"/>
+                </Grid.RowDefinitions>
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                    <Image MaxHeight="20" MaxWidth="20" Source="/Assets/plot.png" Margin="15 0"/>
+                    <TextBlock Text="График функции" Foreground="Black" FontWeight="SemiBold" FontSize="18"/>
+                </StackPanel>
+                
+                <WebView2 Grid.Row="1" x:Name="GraphView" 
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                          Loaded="GraphView_Loaded"
+                          NavigationCompleted="GraphView_NavigationCompleted"/>
+            </Grid>
+        </Border>
     </Grid>
 </Window>
