@@ -78,4 +78,15 @@
     <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
     <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Plotly\graph.html">
+      <Filter>Assets\Plotly</Filter>
+    </None>
+    <None Include="Assets\Plotly\plotly-3.6.0.min.js">
+      <Filter>Assets\Plotly</Filter>
+    </None>
+    <None Include="Assets\Plotly\graph.js">
+      <Filter>Assets\Plotly</Filter>
+    </None>
+  </ItemGroup>
 </Project>

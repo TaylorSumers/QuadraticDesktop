@@ -24,6 +24,7 @@ namespace winrt::QuadraticDesktop::implementation
       co_return;
     }
 
+    UpdateGraph(a, b, c);
     quadratic::interop::Result result = quadratic::interop::Solve(a, b, c);
     ShowResult(result);
   }
@@ -97,6 +98,74 @@ namespace winrt::QuadraticDesktop::implementation
       break;
     }
   }
+
+  void MainWindow::UpdateGraph(double a, double b, double c) {
+    graphA_ = a;
+    graphB_ = b;
+    graphC_ = c;
+    hasGraphData_ = true;
+
+    if (graphReady_) {
+      SendGraphData();
+    }
+  }
+
+  void MainWindow::SendGraphData() {
+    std::wstring json = std::format(
+      LR"({{"a":{:.17g},"b":{:.17g},"c":{:.17g}}})",
+      graphA_,
+      graphB_,
+      graphC_
+    );
+
+    GraphView().CoreWebView2().PostWebMessageAsJson(winrt::hstring{ json });
+  }
+
+
+  winrt::fire_and_forget MainWindow::GraphView_Loaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+  {
+    bool initializationFailed = false;
+    winrt::hstring errorMessage{};
+
+    try {
+      co_await GraphView().EnsureCoreWebView2Async();
+
+      std::wstring plotlyFolder{
+          winrt::Windows::ApplicationModel::Package::Current()
+              .InstalledLocation()
+              .Path()
+              .c_str()
+      };
+
+      plotlyFolder += L"\\Assets\\Plotly";
+
+      auto core = GraphView().CoreWebView2();
+
+      core.SetVirtualHostNameToFolderMapping(
+        L"appassets.example",
+        winrt::hstring{ plotlyFolder },
+        winrt::Microsoft::Web::WebView2::Core::
+        CoreWebView2HostResourceAccessKind::DenyCors);
+
+      core.Navigate(L"https://appassets.example/graph.html");
+    }
+    catch (winrt::hresult_error const& error) {
+      initializationFailed = true;
+      errorMessage = error.message();
+    }
+
+    if (initializationFailed) {
+      ContentDialog errorDialog = GetErrorDialog(L"Ошибка графика", errorMessage);
+      co_await errorDialog.ShowAsync();
+    }
+  }
+
+  void MainWindow::GraphView_NavigationCompleted(winrt::Microsoft::UI::Xaml::Controls::WebView2 const& sender, winrt::Microsoft::Web::WebView2::Core::CoreWebView2NavigationCompletedEventArgs const& e)
+  {
+    graphReady_ = e.IsSuccess();
+
+    if (graphReady_ && hasGraphData_) {
+      SendGraphData();
+    }
+  }
 }
-
-

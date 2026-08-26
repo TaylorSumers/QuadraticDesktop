@@ -28,3 +28,4 @@
 #include <winrt/Windows.ApplicationModel.h>
 #include <winrt/Windows.Storage.h>
 #include <winrt/Microsoft.UI.Xaml.Documents.h>
+#include <winrt/Microsoft.Web.WebView2.Core.h>

@@ -143,18 +143,27 @@
                     </Border>
                     <Border x:Name="brdOneRootMsg" Grid.Row="3" Grid.ColumnSpan="2" Background="#eff9ef" Height="40" Width="230" Visibility="Collapsed"
                         CornerRadius="5" VerticalAlignment="Top" BorderBrush="LightGreen" BorderThickness="1">
-                        <TextBlock Text="Один корень" VerticalAlignment="Center" HorizontalAlignment="Center"
-                               Foreground="Green"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Image Source="/Assets/check.png" MaxHeight="15" MaxWidth="15" Margin="15,0"/>
+                            <TextBlock Text="Один корень" 
+                                       Foreground="Green"/>
+                        </StackPanel>
                     </Border>
                     <Border x:Name="brdNoRootsMsg" Grid.Row="3" Grid.ColumnSpan="2" Background="#fce3e3" Height="40" Width="230" Visibility="Collapsed"
                         CornerRadius="5" VerticalAlignment="Top" BorderBrush="#ff6969" BorderThickness="1">
-                        <TextBlock Text="Нет корней" VerticalAlignment="Center" HorizontalAlignment="Center"
-                               Foreground="Red"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Image Source="/Assets/redcross.png" MaxHeight="15" MaxWidth="15" Margin="15,0"/>
+                            <TextBlock Text="Нет корней" Foreground="Red"/>
+                        </StackPanel>
+                        
                     </Border>
                     <Border x:Name="brdInfRootsMsg" Grid.Row="3" Grid.ColumnSpan="2" Background="#c9c9ff" Height="40" Width="230" Visibility="Collapsed"
                         CornerRadius="5" VerticalAlignment="Top" BorderBrush="#b3b3ff" BorderThickness="1">
-                        <TextBlock Text="Корень - любое число" VerticalAlignment="Center" HorizontalAlignment="Center"
-                               Foreground="#4444fc"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock Text="i" Margin="15,0" Foreground="#4444fc"  FontFamily="Cambria" FontSize="25" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                            <TextBlock Text="Корень - любое число" Foreground="#4444fc" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        
                     </Border>
                 </Grid>
             </Grid>
@@ -165,16 +174,19 @@
                 Margin="10,20,20,20" Grid.RowSpan="2" Grid.Column="1">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.2*"/>
+                    <RowDefinition Height="50"/>
                     <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="0"/>
                 </Grid.RowDefinitions>
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                     <Image MaxHeight="20" MaxWidth="20" Source="/Assets/plot.png" Margin="15 0"/>
                     <TextBlock Text="График функции" Foreground="Black" FontWeight="SemiBold" FontSize="18"/>
                 </StackPanel>
                 
-                <WebView2 Grid.Row="1" x:Name="GraphView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <WebView2 Grid.Row="1" x:Name="GraphView" 
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                          Loaded="GraphView_Loaded"
+                          NavigationCompleted="GraphView_NavigationCompleted"/>
             </Grid>
         </Border>
     </Grid>
