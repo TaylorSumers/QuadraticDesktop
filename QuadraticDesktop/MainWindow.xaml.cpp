@@ -24,6 +24,7 @@ namespace winrt::QuadraticDesktop::implementation
       co_return;
     }
 
+    UpdateGraph(a, b, c);
     quadratic::interop::Result result = quadratic::interop::Solve(a, b, c);
     ShowResult(result);
   }
@@ -39,35 +40,132 @@ namespace winrt::QuadraticDesktop::implementation
     return dialog;
   }
 
-  void MainWindow::ShowResult(quadratic::interop::Result result) {
-    spOutput().Visibility(Visibility::Collapsed);
-    tbResultMessage().Visibility(Visibility::Collapsed);
-    tbSecondRoot().Visibility(Visibility::Visible);
+  winrt::fire_and_forget MainWindow::ShowResult(quadratic::interop::Result result) {
+    tbWaitCoeff().Visibility(Visibility::Collapsed);
+    grdOutput().Visibility(Visibility::Visible);
+
     switch (result.nRoots) {
     case 0:
-      tbResultMessage().Text(L"Нет корней");
-      tbResultMessage().Visibility(Visibility::Visible);
+      brdOneRootMsg().Visibility(Visibility::Collapsed);
+      brdTwoRootsMsg().Visibility(Visibility::Collapsed);
+      brdNoRootsMsg().Visibility(Visibility::Visible);
+      brdInfRootsMsg().Visibility(Visibility::Collapsed);
+
+      dField().Text(winrt::hstring{ std::format(L"{:.6g}", result.d) });
+      tbFirstRoot().Visibility(Visibility::Collapsed);
+      tbSecondRoot().Visibility(Visibility::Collapsed);
       break;
     case 1:
+      brdOneRootMsg().Visibility(Visibility::Visible);
+      brdTwoRootsMsg().Visibility(Visibility::Collapsed);
+      brdNoRootsMsg().Visibility(Visibility::Collapsed);
+      brdInfRootsMsg().Visibility(Visibility::Collapsed);
+
+
+      dField().Text(winrt::hstring{ std::format(L"{:.6g}", result.d) });
       x1Field().Text(winrt::hstring{ std::format(L"{:.6g}", result.x1) });
+      tbFirstRoot().Visibility(Visibility::Visible);
       tbSecondRoot().Visibility(Visibility::Collapsed);
-      spOutput().Visibility(Visibility::Visible);
       break;
     case 2:
+      brdOneRootMsg().Visibility(Visibility::Collapsed);
+      brdTwoRootsMsg().Visibility(Visibility::Visible);
+      brdNoRootsMsg().Visibility(Visibility::Collapsed);
+      brdInfRootsMsg().Visibility(Visibility::Collapsed);
+
+      dField().Text(winrt::hstring{ std::format(L"{:.6g}", result.d) });
       x1Field().Text(to_hstring(winrt::hstring{ std::format(L"{:.6g}", result.x1) }));
       x2Field().Text(to_hstring(winrt::hstring{ std::format(L"{:.6g}", result.x2) }));
-      spOutput().Visibility(Visibility::Visible);
+      tbFirstRoot().Visibility(Visibility::Visible);
+      tbSecondRoot().Visibility(Visibility::Visible);
       break;
     case 3:
-      tbResultMessage().Text(L"Любое число является корнем");
-      tbResultMessage().Visibility(Visibility::Visible);
+      brdOneRootMsg().Visibility(Visibility::Collapsed);
+      brdTwoRootsMsg().Visibility(Visibility::Collapsed);
+      brdNoRootsMsg().Visibility(Visibility::Collapsed);
+      brdInfRootsMsg().Visibility(Visibility::Visible);
+
+      dField().Text(winrt::hstring{ std::format(L"{:.6g}", result.d) });
+      tbFirstRoot().Visibility(Visibility::Collapsed);
+      tbSecondRoot().Visibility(Visibility::Collapsed);
       break;
     default:
-      tbResultMessage().Text(L"Неизвестный результат вычисления");
-      tbResultMessage().Visibility(Visibility::Visible);
+      tbWaitCoeff().Visibility(Visibility::Visible);
+      grdOutput().Visibility(Visibility::Collapsed);
+
+      auto errorDialog = GetErrorDialog(L"Ошибка вычисления", L"Неизвестный результат");
+      co_await errorDialog.ShowAsync();
       break;
     }
   }
+
+  void MainWindow::UpdateGraph(double a, double b, double c) {
+    graphA_ = a;
+    graphB_ = b;
+    graphC_ = c;
+    hasGraphData_ = true;
+
+    if (graphReady_) {
+      SendGraphData();
+    }
+  }
+
+  void MainWindow::SendGraphData() {
+    std::wstring json = std::format(
+      LR"({{"a":{:.17g},"b":{:.17g},"c":{:.17g}}})",
+      graphA_,
+      graphB_,
+      graphC_
+    );
+
+    GraphView().CoreWebView2().PostWebMessageAsJson(winrt::hstring{ json });
+  }
+
+
+  winrt::fire_and_forget MainWindow::GraphView_Loaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+  {
+    bool initializationFailed = false;
+    winrt::hstring errorMessage{};
+
+    try {
+      co_await GraphView().EnsureCoreWebView2Async();
+
+      std::wstring plotlyFolder{
+          winrt::Windows::ApplicationModel::Package::Current()
+              .InstalledLocation()
+              .Path()
+              .c_str()
+      };
+
+      plotlyFolder += L"\\Assets\\Plotly";
+
+      auto core = GraphView().CoreWebView2();
+
+      core.SetVirtualHostNameToFolderMapping(
+        L"appassets.example",
+        winrt::hstring{ plotlyFolder },
+        winrt::Microsoft::Web::WebView2::Core::
+        CoreWebView2HostResourceAccessKind::DenyCors);
+
+      core.Navigate(L"https://appassets.example/graph.html");
+    }
+    catch (winrt::hresult_error const& error) {
+      initializationFailed = true;
+      errorMessage = error.message();
+    }
+
+    if (initializationFailed) {
+      ContentDialog errorDialog = GetErrorDialog(L"Ошибка графика", errorMessage);
+      co_await errorDialog.ShowAsync();
+    }
+  }
+
+  void MainWindow::GraphView_NavigationCompleted(winrt::Microsoft::UI::Xaml::Controls::WebView2 const& sender, winrt::Microsoft::Web::WebView2::Core::CoreWebView2NavigationCompletedEventArgs const& e)
+  {
+    graphReady_ = e.IsSuccess();
+
+    if (graphReady_ && hasGraphData_) {
+      SendGraphData();
+    }
+  }
 }
-
-

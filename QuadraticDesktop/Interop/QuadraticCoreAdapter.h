@@ -3,6 +3,7 @@
 namespace quadratic::interop {
   struct Result {
     int nRoots{};
+    double d{};
     double x1{};
     double x2{};
   };

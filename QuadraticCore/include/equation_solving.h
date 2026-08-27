@@ -12,7 +12,7 @@ typedef enum RootAmount{
     INF_ROOTS
 } RootAmount;
 
-int SolveEquation(double a, double b, double c, double* x1, double* x2);
+int SolveEquation(double a, double b, double c, double* d, double* x1, double* x2);
 
 #ifdef __cplusplus
 }

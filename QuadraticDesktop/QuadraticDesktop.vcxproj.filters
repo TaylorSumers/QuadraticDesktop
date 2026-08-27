@@ -44,6 +44,15 @@
     <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <Filter>Assets</Filter>
     </Image>
+    <Image Include="Assets\calculator.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\check.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\plot.png">
+      <Filter>Assets</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Assets">
@@ -51,6 +60,9 @@
     </Filter>
     <Filter Include="Interop">
       <UniqueIdentifier>{5be43433-ba1a-4da7-a2ae-64cdf9c60cf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Plotly">
+      <UniqueIdentifier>{eec220cc-ee08-417d-99eb-3c91712f0f95}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -65,5 +77,16 @@
   <ItemGroup>
     <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
     <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Plotly\graph.html">
+      <Filter>Assets\Plotly</Filter>
+    </None>
+    <None Include="Assets\Plotly\plotly-3.6.0.min.js">
+      <Filter>Assets\Plotly</Filter>
+    </None>
+    <None Include="Assets\Plotly\graph.js">
+      <Filter>Assets\Plotly</Filter>
+    </None>
   </ItemGroup>
 </Project>

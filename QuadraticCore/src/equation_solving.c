@@ -36,29 +36,29 @@ void SolveLinear(double b, double c, double* x1){
     *x1 = -c / b;
 }
 
-int SolveSquare(double a, double b, double c, double* x1, double* x2){
+int SolveSquare(double a, double b, double c, double* d, double* x1, double* x2){
     assert(x1);
     assert(x2);
 
-    double d = b*b - 4*a*c;
-    if (IsZero(d))
+    *d = b*b - 4*a*c;
+    if (IsZero(*d))
     {
         *x1 = *x2 = -b / (2*a);
         return ONE_ROOT;
     }
-    else if (LessThan(d, 0)) {
+    else if (LessThan(*d, 0)) {
         return NO_ROOTS;
     }
     else
     {
-        double sqrt_d = sqrt(d);
+        double sqrt_d = sqrt(*d);
         *x1 = (-b - sqrt_d) / (2*a);
         *x2 = (-b + sqrt_d) / (2*a);
         return TWO_ROOTS;
     }
 }
 
-int SolveEquation(double a, double b, double c, double* x1, double* x2) {
+int SolveEquation(double a, double b, double c, double* d, double* x1, double* x2) {
     assert(x1);
     assert(x2);
 
@@ -68,7 +68,7 @@ int SolveEquation(double a, double b, double c, double* x1, double* x2) {
             SolveLinear(b, c, x1);  
             return ONE_ROOT;
         case QUADRATIC:
-            return SolveSquare(a, b, c, x1, x2);
+            return SolveSquare(a, b, c, d, x1, x2);
         case CONTRADICTION:
             return NO_ROOTS;
         case IDENTITY:
