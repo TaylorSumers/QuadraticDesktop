@@ -21,12 +21,18 @@
     <ClInclude Include="include\equation_solving.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\graph_analysis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\cmp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\equation_solving.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graph_analysis.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -53,6 +53,12 @@
     <Image Include="Assets\plot.png">
       <Filter>Assets</Filter>
     </Image>
+    <Image Include="Assets\uparrow.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\redcross.png">
+      <Filter>Assets</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Assets">

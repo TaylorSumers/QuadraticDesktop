@@ -13,7 +13,7 @@ typedef enum EquationTypes{
     QUADRATIC       // a!=0           (квадратное)
 } EquationTypes;
 
-EquationTypes GetEquationType(double a, double b, double c){
+static EquationTypes GetEquationType(double a, double b, double c){
     if (IsZero(a))
     {
         if (IsZero(b))
@@ -31,12 +31,12 @@ EquationTypes GetEquationType(double a, double b, double c){
     }
 }
 
-void SolveLinear(double b, double c, double* x1){
+static void SolveLinear(double b, double c, double* x1){
     assert(x1);
     *x1 = -c / b;
 }
 
-int SolveSquare(double a, double b, double c, double* d, double* x1, double* x2){
+static int SolveSquare(double a, double b, double c, double* d, double* x1, double* x2){
     assert(x1);
     assert(x2);
 
@@ -65,7 +65,7 @@ int SolveEquation(double a, double b, double c, double* d, double* x1, double* x
     EquationTypes equationType = GetEquationType(a, b, c);
     switch (equationType) {
         case LINEAR:
-            SolveLinear(b, c, x1);  
+            SolveLinear(b, c, x1);
             return ONE_ROOT;
         case QUADRATIC:
             return SolveSquare(a, b, c, d, x1, x2);
@@ -73,5 +73,9 @@ int SolveEquation(double a, double b, double c, double* d, double* x1, double* x
             return NO_ROOTS;
         case IDENTITY:
             return INF_ROOTS;
+        default:
+            return SOLVE_ERROR;
     }
+
+    return SOLVE_ERROR;
 }

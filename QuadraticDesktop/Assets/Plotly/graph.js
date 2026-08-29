@@ -1,5 +1,3 @@
-"use strict";
-
 const config = {
     responsive: true,
     displaylogo: false,
@@ -37,7 +35,7 @@ const emptyLayout = {
     }
 };
 
-function drawQuadratic(a, b, c) {
+function drawQuadratic(a, b, c, x1, x2) {
     const xValues = [];
     const yValues = [];
 
@@ -69,6 +67,102 @@ function drawQuadratic(a, b, c) {
             "y = %{y:.3f}" +
             "<extra></extra>"
     };
+
+    //
+    const traces = [trace];
+
+    const EPS = 1e-6;
+
+    // При a ≈ 0 функция линейная и вершины параболы нет
+    if (Math.abs(a) > EPS) {
+        const vertexX = -b / (2 * a);
+        const vertexY =
+            a * vertexX * vertexX +
+            b * vertexX +
+            c;
+
+        const vertexTrace = {
+            x: [vertexX],
+            y: [vertexY],
+
+            type: "scatter",
+            mode: "markers",
+
+            marker: {
+                color: "MediumPurple",
+                size: 12,
+                symbol: "circle",
+                line: {
+                    color: "#ffffff",
+                    width: 2
+                }
+            },
+
+            hovertemplate:
+                "<b>Вершина</b><br>" +
+                "x = %{x:.3f}<br>" +
+                "y = %{y:.3f}" +
+                "<extra></extra>"
+        };
+
+        //
+        const rootTrace1 = {
+            x: [x1],
+            y: [0],
+
+            type: "scatter",
+            mode: "markers",
+
+            marker: {
+                color: "red",
+                size: 12,
+                symbol: "circle",
+                line: {
+                    color: "#ffffff",
+                    width: 2
+                }
+            },
+
+            hovertemplate:
+                "<b>x₁</b><br>" +
+                "x = %{x:.3f}<br>" +
+                "y = %{y:.3f}" +
+                "<extra></extra>"
+        }
+
+        const rootTrace2 = {
+            x: [x2],
+            y: [0],
+
+            type: "scatter",
+            mode: "markers",
+
+            marker: {
+                color: "red",
+                size: 12,
+                symbol: "circle",
+                line: {
+                    color: "#ffffff",
+                    width: 2
+                }
+            },
+
+            hovertemplate:
+                "<b>x₂</b><br>" +
+                "x = %{x:.3f}<br>" +
+                "y = %{y:.3f}" +
+                "<extra></extra>"
+        }
+        //
+
+        traces.push(vertexTrace);
+
+        //
+        traces.push(rootTrace1);
+        traces.push(rootTrace2);
+        //
+    }
+    //
 
     const layout = {
         margin: {
@@ -103,13 +197,13 @@ function drawQuadratic(a, b, c) {
         }
     };
 
-    Plotly.react("graph", [trace], layout, config);
+    Plotly.react("graph", traces, layout, config);
 }
 
 Plotly.newPlot("graph", [], emptyLayout, config);
 
 window.chrome.webview.addEventListener("message", event => {
-    const { a, b, c } = event.data;
+    const { a, b, c, x1, x2 } = event.data;
 
-    drawQuadratic(a, b, c);
+    drawQuadratic(a, b, c, x1, x2);
 });

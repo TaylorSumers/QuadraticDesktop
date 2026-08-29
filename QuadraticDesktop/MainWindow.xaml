@@ -116,22 +116,24 @@
                         <TextBlock Text="x₁" HorizontalAlignment="Center" VerticalAlignment="Center"
                                FontFamily="Cambria" FontSize="18" Foreground="Red"/>
                     </Border>
-
                     <TextBlock Foreground="Black"  FontSize="20" Grid.Row="1" Grid.Column="1"
                            VerticalAlignment="Center" FontFamily="Cambria" x:Name="tbFirstRoot">
                         <Run Text="x₁ = "/>
                         <Run x:Name="x1Field"/>
                     </TextBlock>
+                    <Line Grid.Row="1" Stroke="LightGray" StrokeThickness="1" X1="0" X2="230" Y1="0" Y2="0" HorizontalAlignment="Center" Grid.ColumnSpan="2"/>
+
                     <!-- R2 -->
                     <Border Grid.Row="2" Background="#fcd7d7" Height="30" Width="30" CornerRadius="20">
                         <TextBlock Text="x₂" HorizontalAlignment="Center" VerticalAlignment="Center"
                                FontFamily="Cambria" FontSize="18" Foreground="Red"/>
                     </Border>
-                    <TextBlock Foreground="Black"  FontSize="20" Grid.Row="2" Grid.Column="1" 
+                    <TextBlock Foreground="Black"  FontSize="20" Grid.Row="2" Grid.Column="1"
                            VerticalAlignment="Center" FontFamily="Cambria" x:Name="tbSecondRoot">
                         <Run Text="x₂ = "/>
                         <Run x:Name="x2Field"/>
                     </TextBlock>
+                    <Line Grid.Row="2" Stroke="LightGray" StrokeThickness="1" X1="0" X2="230" Y1="0" Y2="0" HorizontalAlignment="Center" Grid.ColumnSpan="2"/>
                     <!-- R3 -->
                     <Border x:Name="brdTwoRootsMsg" Grid.Row="3" Grid.ColumnSpan="2" Background="#eff9ef" Height="40" Width="230" Visibility="Collapsed"
                         CornerRadius="5" VerticalAlignment="Top" BorderBrush="LightGreen" BorderThickness="1" >
@@ -176,17 +178,67 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
                     <RowDefinition/>
-                    <RowDefinition Height="0"/>
+                    <RowDefinition Height="70"/>
                 </Grid.RowDefinitions>
-                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                <!-- R0-2 -->
+                <WebView2 x:Name="GraphView" Grid.RowSpan="3" Margin="0,5,0,30"
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                          Loaded="GraphView_Loaded"
+                          NavigationCompleted="GraphView_NavigationCompleted"/>
+
+                <!-- R0 -->
+                <StackPanel VerticalAlignment="Top" Orientation="Horizontal" Margin="0,10">
                     <Image MaxHeight="20" MaxWidth="20" Source="/Assets/plot.png" Margin="15 0"/>
                     <TextBlock Text="График функции" Foreground="Black" FontWeight="SemiBold" FontSize="18"/>
                 </StackPanel>
                 
-                <WebView2 Grid.Row="1" x:Name="GraphView" 
-                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                          Loaded="GraphView_Loaded"
-                          NavigationCompleted="GraphView_NavigationCompleted"/>
+                <!-- R1 -->
+                <Border Background="White" BorderBrush="LightGray" Height="40" Grid.Row="1" BorderThickness="1" Visibility="Collapsed"
+                        CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,10,0" Name="brdEquationString">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Line Stroke="Red" X1="0" X2="30" Y1="20" Y2="20" StrokeThickness="3" Margin="10,0"/>
+                        <TextBlock x:Name="tbEquationString" Foreground="Black" VerticalAlignment="Center" FontWeight="SemiBold" Margin="10,0"/>
+                    </StackPanel>
+                </Border>
+
+
+                <!-- R2 -->
+                <Border Grid.Row="2"  CornerRadius="10" BorderBrush="LightGray" BorderThickness="1" Margin="30,0,30,10" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <!-- C1 -->
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Ellipse Height="20" Width="20" Fill="MediumPurple"/>
+                            <StackPanel VerticalAlignment="Center" Margin="20, 0" MinWidth="100">
+                                <TextBlock Text="Вершина"  Foreground="Black" FontWeight="SemiBold"/>
+                                <TextBlock x:Name="tbVertexCords" Foreground="Black" FontWeight="SemiBold"/>
+                            </StackPanel>
+                            <Line Stroke="LightGray" StrokeThickness="1" Y1="0" Y2="50"/>
+                        </StackPanel>
+                        <!-- C2 -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Ellipse Height="20" Width="20" Fill="Blue"/>
+                            <StackPanel VerticalAlignment="Center" Margin="20, 0" MinWidth="110">
+                                <TextBlock Text="Ось симметрии"  Foreground="Black" FontWeight="SemiBold"/>
+                                <TextBlock x:Name="tbAxisOfSymmetry" Foreground="Black" FontWeight="SemiBold"/>
+                            </StackPanel>
+                            <Line Stroke="LightGray" StrokeThickness="1" Y1="0" Y2="50"/>
+                        </StackPanel>
+                        <!-- C3 -->
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Source="/Assets/uparrow.png" MaxHeight="40" MaxWidth="40"/>
+                            <StackPanel VerticalAlignment="Center" Margin="20, 0" MinWidth="150">
+                                <TextBlock Text="Направление ветвей"  Foreground="Black" FontWeight="SemiBold"/>
+                                <TextBlock x:Name="tbBranchesDirection" Foreground="Black" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </Grid>
+                </Border>
             </Grid>
         </Border>
     </Grid>

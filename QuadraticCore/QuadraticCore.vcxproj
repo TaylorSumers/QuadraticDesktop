@@ -21,10 +21,12 @@
   <ItemGroup>
     <ClInclude Include="include\cmp.h" />
     <ClInclude Include="include\equation_solving.h" />
+    <ClInclude Include="include\graph_analysis.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\cmp.c" />
     <ClCompile Include="src\equation_solving.c" />
+    <ClCompile Include="src\graph_analysis.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
@@ -149,8 +151,11 @@
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAs>CompileAsC</CompileAs>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>
