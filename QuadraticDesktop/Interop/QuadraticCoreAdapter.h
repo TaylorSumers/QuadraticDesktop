@@ -1,7 +1,7 @@
 #pragma once
 
-#include "equation_solving.h"
 #include "graph_analysis.h"
+#include "equation_solving.h"
 
 namespace winrt::QuadraticDesktop::Interop {
   struct GraphInfo {
@@ -10,7 +10,7 @@ namespace winrt::QuadraticDesktop::Interop {
   };
 
   struct Solution {
-    int nRoots{};
+    RootAmount nRoots{};
     double d{};
     double x1{};
     double x2{};

@@ -123,12 +123,13 @@ namespace winrt::QuadraticDesktop::implementation
   void MainWindow::SendGraphData() 
   {
     std::wstring json = std::format(
-      LR"({{ "a":{:.17g},"b":{:.17g},"c":{:.17g}, "x1":{:.17g}, "x2":{:.17g} }})",
+      LR"({{ "a":{:.17g},"b":{:.17g},"c":{:.17g}, "x1":{:.17g}, "x2":{:.17g}, "nRoots":{} }})",
       graphA_,
       graphB_,
       graphC_,
       graphX1_,
-      graphX2_
+      graphX2_,
+      graphNRoots_
     );
 
     GraphView().CoreWebView2().PostWebMessageAsJson(hstring{ json });
@@ -138,6 +139,7 @@ namespace winrt::QuadraticDesktop::implementation
   {
     graphX1_ = result.x1;
     graphX2_ = result.x2;
+    graphNRoots_ = result.nRoots;
 
 
     tbWaitCoeff().Visibility(Visibility::Collapsed);

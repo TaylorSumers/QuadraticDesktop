@@ -5,6 +5,10 @@
 extern "C" {
 #endif
 
+static double NormalizeZero(double value) {
+  return value == 0.0 ? 0.0 : value;
+}
+
 BranchesDirection GetBranchesDirection(double a) {
   if (GreaterThan(a, 0)) {
     return UP;
@@ -23,8 +27,8 @@ Point GetVertex(double a, double b, double c) {
     return vertex;
   }
 
-  vertex.x = -b / (2 * a);
-  vertex.y = a * (vertex.x * vertex.x) + b * vertex.x + c;
+  vertex.x = NormalizeZero(- b / (2 * a));
+  vertex.y = NormalizeZero(a * (vertex.x * vertex.x) + b * vertex.x + c);
   return vertex;
 }
 

@@ -2,6 +2,7 @@
 #include "QuadraticCoreAdapter.h"
 
 
+
 namespace winrt::QuadraticDesktop::Interop {
   Solution Solve(double a, double b, double c) {
     Solution result{};

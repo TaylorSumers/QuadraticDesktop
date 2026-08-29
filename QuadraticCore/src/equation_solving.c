@@ -1,7 +1,5 @@
-#include <stdbool.h>
 #include <math.h>
 #include <assert.h>
-#include <stdio.h>
 
 #include "equation_solving.h"
 #include "cmp.h"
@@ -12,6 +10,10 @@ typedef enum EquationTypes{
     LINEAR,         // a=0, b!=0      (линейное)
     QUADRATIC       // a!=0           (квадратное)
 } EquationTypes;
+
+static double NormalizeZero(double value) {
+  return value == 0.0 ? 0.0 : value;
+}
 
 static EquationTypes GetEquationType(double a, double b, double c){
     if (IsZero(a))
@@ -33,17 +35,19 @@ static EquationTypes GetEquationType(double a, double b, double c){
 
 static void SolveLinear(double b, double c, double* x1){
     assert(x1);
-    *x1 = -c / b;
+    *x1 = NormalizeZero(-c / b);
 }
 
-static int SolveSquare(double a, double b, double c, double* d, double* x1, double* x2){
+static RootAmount SolveSquare(double a, double b, double c, double* d, double* x1, double* x2){
     assert(x1);
     assert(x2);
+    assert(d);
 
     *d = b*b - 4*a*c;
     if (IsZero(*d))
     {
-        *x1 = *x2 = -b / (2*a);
+        *d = 0.0;
+        *x1 = *x2 = NormalizeZero(-b / (2 * a));
         return ONE_ROOT;
     }
     else if (LessThan(*d, 0)) {
@@ -52,13 +56,13 @@ static int SolveSquare(double a, double b, double c, double* d, double* x1, doub
     else
     {
         double sqrt_d = sqrt(*d);
-        *x1 = (-b - sqrt_d) / (2*a);
-        *x2 = (-b + sqrt_d) / (2*a);
+        *x1 = NormalizeZero((-b - sqrt_d) / (2 * a));
+        *x2 = NormalizeZero((-b + sqrt_d) / (2 * a));
         return TWO_ROOTS;
     }
 }
 
-int SolveEquation(double a, double b, double c, double* d, double* x1, double* x2) {
+RootAmount SolveEquation(double a, double b, double c, double* d, double* x1, double* x2) {
     assert(x1);
     assert(x2);
 

@@ -21,8 +21,7 @@ namespace winrt::QuadraticDesktop::implementation
         double graphC_{};
         double graphX1_{};
         double graphX2_{};
-        double graphY1_{};
-        double graphY2_{};
+        int graphNRoots_{};
 
         void UpdateGraph(double a, double b, double c);
         void SendGraphData();

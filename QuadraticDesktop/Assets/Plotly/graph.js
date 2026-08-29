@@ -1,59 +1,81 @@
+const EPS = 1e-6;
+const divId = "graph";
+
 const config = {
     responsive: true,
     displaylogo: false,
-    scrollZoom: true
+    scrollZoom: true,
+    modeBarButtonsToRemove:[
+        "select2d",
+        "lasso2d",
+        "toImage",
+        "autoScale2d",
+        "resetScale2d"
+    ]
 };
 
 const emptyLayout = {
-    margin: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0
-    },
-
-    showlegend: false,
-
     xaxis: {
-        title: "x",
         tickmode: "linear",
         tick0: 0,
         dtick: 1,
         gridcolor: "#e5e7eb",
-        zerolinecolor: "#111827"
+        zerolinecolor: "Black"
     },
 
     yaxis: {
-        title: "y",
         tickmode: "linear",
         tick0: 0,
         dtick: 1,
         scaleanchor: "x",
         scaleratio: 1,
         gridcolor: "#e5e7eb",
-        zerolinecolor: "#111827"
+        zerolinecolor: "Black"
     }
 };
 
-function drawQuadratic(a, b, c, x1, x2) {
+function createGraphLayout(xMin, xMax) {
+    const layout = {
+        showlegend: false,
+        xaxis: {
+            range: [xMin, xMax],
+            tickmode: "linear",
+            tick0: 0,
+            dtick: 1,
+            gridcolor: "#e5e7eb",
+            zerolinecolor: "Black"
+        },
+
+        yaxis: {
+            autorange: false,
+            tickmode: "linear",
+            tick0: 0,
+            dtick: 1,
+            scaleanchor: "x",
+            scaleratio: 1,
+            gridcolor: "#e5e7eb",
+            zerolinecolor: "Black"
+        }
+    };
+
+    return layout;
+}
+
+function createGraphTrace(a, b, c, xMin, xMax, pointCount) {
     const xValues = [];
     const yValues = [];
 
-    const xMin = -10;
-    const xMax = 10;
-    const pointCount = 100;
-
     for (let i = 0; i <= pointCount; ++i) {
         const x = xMin + (xMax - xMin) * i / pointCount;
-        const y = a * x * x + b * x + c;
 
         xValues.push(x);
-        yValues.push(y);
+        yValues.push(a * x * x + b * x + c);
     }
 
-    const trace = {
+    const graphTrace = {
         x: xValues,
         y: yValues,
+
         type: "scatter",
         mode: "lines",
 
@@ -68,142 +90,100 @@ function drawQuadratic(a, b, c, x1, x2) {
             "<extra></extra>"
     };
 
-    //
-    const traces = [trace];
+    return graphTrace;
+}
 
-    const EPS = 1e-6;
+function createRootTrace(root, name) {
+    const rootTrace = {
+        x: [root],
+        y: [0],
+
+        type: "scatter",
+        mode: "markers",
+
+        marker: {
+            color: "red",
+            size: 12,
+            symbol: "circle",
+            line: {
+                color: "white",
+                width: 2
+            }
+        },
+
+        hovertemplate:
+            "<b>" + name + "</b><br>" +
+            "x = %{x:.3f}<br>" +
+            "y = %{y:.3f}" +
+            "<extra></extra>"
+    };
+
+    return rootTrace;
+}
+
+function createVertexTrace(a, b, c) {
+    const vertexX = -b / (2 * a);
+    const vertexY = a * (vertexX * vertexX) + b * vertexX + c;
+
+    const vertexTrace = {
+        x: [vertexX],
+        y: [vertexY],
+
+        type: "scatter",
+        mode: "markers",
+
+        marker: {
+            color: "MediumPurple",
+            size: 12,
+            symbol: "circle",
+            line: {
+                color: "white",
+                width: 2
+            }
+        },
+
+        hovertemplate:
+            "<b>Вершина</b><br>" +
+            "x = %{x:.3f}<br>" +
+            "y = %{y:.3f}" +
+            "<extra></extra>"
+    };
+    return vertexTrace;
+}
+
+function createTraces(a, b, c, x1, x2, nRoots, xMin, xMax, pointCount) {
+    const traces = [createGraphTrace(a, b, c, xMin, xMax, pointCount)];
 
     // При a ≈ 0 функция линейная и вершины параболы нет
     if (Math.abs(a) > EPS) {
-        const vertexX = -b / (2 * a);
-        const vertexY =
-            a * vertexX * vertexX +
-            b * vertexX +
-            c;
-
-        const vertexTrace = {
-            x: [vertexX],
-            y: [vertexY],
-
-            type: "scatter",
-            mode: "markers",
-
-            marker: {
-                color: "MediumPurple",
-                size: 12,
-                symbol: "circle",
-                line: {
-                    color: "#ffffff",
-                    width: 2
-                }
-            },
-
-            hovertemplate:
-                "<b>Вершина</b><br>" +
-                "x = %{x:.3f}<br>" +
-                "y = %{y:.3f}" +
-                "<extra></extra>"
-        };
-
-        //
-        const rootTrace1 = {
-            x: [x1],
-            y: [0],
-
-            type: "scatter",
-            mode: "markers",
-
-            marker: {
-                color: "red",
-                size: 12,
-                symbol: "circle",
-                line: {
-                    color: "#ffffff",
-                    width: 2
-                }
-            },
-
-            hovertemplate:
-                "<b>x₁</b><br>" +
-                "x = %{x:.3f}<br>" +
-                "y = %{y:.3f}" +
-                "<extra></extra>"
-        }
-
-        const rootTrace2 = {
-            x: [x2],
-            y: [0],
-
-            type: "scatter",
-            mode: "markers",
-
-            marker: {
-                color: "red",
-                size: 12,
-                symbol: "circle",
-                line: {
-                    color: "#ffffff",
-                    width: 2
-                }
-            },
-
-            hovertemplate:
-                "<b>x₂</b><br>" +
-                "x = %{x:.3f}<br>" +
-                "y = %{y:.3f}" +
-                "<extra></extra>"
-        }
-        //
-
-        traces.push(vertexTrace);
-
-        //
-        traces.push(rootTrace1);
-        traces.push(rootTrace2);
-        //
+        traces.push(createVertexTrace(a, b, c));
     }
-    //
 
-    const layout = {
-        margin: {
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0
-        },
+    if ((nRoots === 1 || nRoots === 2) && Number.isFinite(x1)) {
+        traces.push(createRootTrace(x1, "x₁"));
+    }
 
-        showlegend: false,
+    if (nRoots === 2 && Number.isFinite(x2)) {
+        traces.push(createRootTrace(x2, "x₂"));
+    }
 
-        xaxis: {
-            title: "x",
-            range: [xMin, xMax],
-            tickmode: "linear",
-            tick0: 0,
-            dtick: 1,
-            gridcolor: "#e5e7eb",
-            zerolinecolor: "#111827"
-        },
-
-        yaxis: {
-            title: "y",
-            autorange: false,
-            tickmode: "linear",
-            tick0: 0,
-            dtick: 1,
-            scaleanchor: "x",
-            scaleratio: 1,
-            gridcolor: "#e5e7eb",
-            zerolinecolor: "#111827"
-        }
-    };
-
-    Plotly.react("graph", traces, layout, config);
+    return traces;
 }
 
-Plotly.newPlot("graph", [], emptyLayout, config);
+function drawQuadratic(a, b, c, x1, x2, nRoots) {
+    const xMin = -10;
+    const xMax = 10;
+    const pointCount = 100;
+
+    const traces = createTraces(a, b, c, x1, x2, nRoots, xMin, xMax, pointCount);
+    const layout = createGraphLayout(xMin, xMax);
+
+    Plotly.react(divId, traces, layout, config);
+}
+
+Plotly.newPlot(divId, [], emptyLayout, config);
 
 window.chrome.webview.addEventListener("message", event => {
-    const { a, b, c, x1, x2 } = event.data;
-
-    drawQuadratic(a, b, c, x1, x2);
+    const { a, b, c, x1, x2, nRoots } = event.data;
+    drawQuadratic(a, b, c, x1, x2, nRoots);
 });

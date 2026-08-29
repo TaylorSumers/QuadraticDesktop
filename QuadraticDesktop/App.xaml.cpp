@@ -12,6 +12,7 @@ namespace winrt::QuadraticDesktop::implementation
     void App::OnLaunched([[maybe_unused]] LaunchActivatedEventArgs const& e)
     {
         window_ = make<MainWindow>();
+
         AppWindow appWindow = window_.AppWindow();
 
         winrt::hstring iconPath{
