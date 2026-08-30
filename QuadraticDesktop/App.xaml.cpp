@@ -21,8 +21,7 @@ namespace winrt::QuadraticDesktop::implementation
             .Path()
             + L"\\Assets\\AppIcon.ico"
         };
-        appWindow.SetTitleBarIcon(winrt::hstring{ iconPath });
-        appWindow.SetTaskbarIcon(winrt::hstring{ iconPath });
+        appWindow.SetIcon(iconPath);
 
         appWindow.ResizeClient(SizeInt32{ 1300, 900 });
         if (auto presenter = appWindow.Presenter().try_as<OverlappedPresenter>()) {

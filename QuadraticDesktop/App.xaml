@@ -9,6 +9,60 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
             </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="TextBlock" x:Key="BaseTextBlockStyle">
+                <Setter Property="Foreground" Value="Black"/>
+            </Style>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}"/>
+            <Style TargetType="TextBlock" x:Key="CoeffInputTextBlockStyle" BasedOn="{StaticResource BaseTextBlockStyle}">
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+            </Style>
+            <Style TargetType="TextBlock" x:Key="ResultOutputTextBlockStyle" BasedOn="{StaticResource BaseTextBlockStyle}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontFamily" Value="Cambria"/>
+                <Setter Property="FontSize" Value="20"/>
+            </Style>
+
+            <Style TargetType="NumberBox" x:Key="BaseNumberBoxStyle">
+                <Setter Property="Foreground" Value="Black"/>
+            </Style>
+            <Style TargetType="NumberBox" BasedOn="{StaticResource BaseNumberBoxStyle}"/>
+            <Style TargetType="NumberBox" x:Key="CoeffInputNumberBoxStyle" BasedOn="{StaticResource BaseNumberBoxStyle}">
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="Width" Value="170"/>
+                <Setter Property="Margin" Value="10,0,0,0"/>
+                <Setter Property="BorderBrush" Value="LightGray"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+            </Style>
+
+            <Style TargetType="Line">
+                <Setter Property="Stroke" Value="LightGray"/>
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+
+            <Style TargetType="Border">
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="BorderBrush" Value="LightGray"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Style>
+            <Style TargetType="Border" x:Key="ResultBadgeStyle">
+                <Setter Property="Background" Value="#fcd7d7"/>
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="Width" Value="30"/>
+                <Setter Property="CornerRadius" Value="20"/>
+            </Style>
+            <Style TargetType="Border" x:Key="ResultExplanationBorderStyle">
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="Width" Value="230"/>
+                <Setter Property="CornerRadius" Value="5"/>
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="Visibility" Value="Collapsed"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
