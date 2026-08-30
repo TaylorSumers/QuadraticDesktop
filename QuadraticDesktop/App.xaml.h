@@ -6,11 +6,10 @@ namespace winrt::QuadraticDesktop::implementation
 {
     struct App : AppT<App>
     {
-        App();
-
+        App() = default;
         void OnLaunched(Microsoft::UI::Xaml::LaunchActivatedEventArgs const&);
 
     private:
-        winrt::Microsoft::UI::Xaml::Window window{ nullptr };
+        winrt::Microsoft::UI::Xaml::Window window_{ nullptr };
     };
 }
