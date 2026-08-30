@@ -4,6 +4,9 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
   <Project Path="QuadraticCore/QuadraticCore.vcxproj" Id="4a789e91-c3e9-4cdf-8102-74e389a511d0">
     <Platform Solution="*|ARM64" Project="x64" />
   </Project>

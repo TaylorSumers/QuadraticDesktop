@@ -11,7 +11,7 @@
   <Identity
     Name="dead39aa-6289-48dd-92d2-4abae440da8b"
     Publisher="CN=suvor"
-    Version="1.0.1.0" />
+    Version="1.0.2.0" />
 
   <mp:PhoneIdentity PhoneProductId="dead39aa-6289-48dd-92d2-4abae440da8b" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
